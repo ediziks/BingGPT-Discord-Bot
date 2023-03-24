@@ -5,6 +5,7 @@ import json
 from discord import app_commands
 import discord
 from dotenv import load_dotenv
+import traceback
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -45,31 +46,47 @@ gptbot = Chatbot(cookiePath='cookies.json')
 async def ask(interaction: discord.Interaction, prompt: str):
     """Ask BingGPT a question"""
     await interaction.response.defer(thinking=True)
-    res =  (
-        (await gptbot.ask(prompt=prompt, conversation_style=ConversationStyle.balanced))["item"][
-            "messages"
-        ][1]["adaptiveCards"][0]["body"][0]["text"],
-    )
-    if len(res[0]) < 2000:
+    try:
+        res =  (
+            (await gptbot.ask(prompt=prompt, conversation_style=ConversationStyle.balanced))["item"][
+                "messages"
+            ][1]["adaptiveCards"][0]["body"][0]["text"],
+        )
+    except Exception as e:
+        await interaction.followup.send("Error: " + str(e))
+    if len(res[0]) < 1950:
         await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0], suppress_embeds=True)
     else:
-        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0][:2000], suppress_embeds=True)
-        await interaction.response.send_message(res[0][2000:])
+        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0][:1950], suppress_embeds=True)
+        await interaction.followup.send(res[0][1950:], suppress_embeds=True, )
 
 
 @client.tree.command()
 async def imagine(interaction: discord.Interaction, prompt: str):
     """Ask BingGPT to imagine visuals"""
+    await interaction.response.defer(thinking=True)
     with open('cookies.json', encoding="utf-8") as file:
         cookie_json = json.load(file)
         for cookie in cookie_json:
             if cookie.get("name") == "_U":
                 auth_cookie = cookie.get("value")
                 break
-    await interaction.response.defer(thinking=True)
-    images = ImageGen(auth_cookie=auth_cookie).get_images(prompt)
+    try:
+        images = ImageGen(auth_cookie=auth_cookie).get_images(prompt)
+    except Exception as e:
+        await interaction.followup.send("Error: " + str(e))
     images = '\n'.join(images)
     await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + images)
+
+
+@ask.error
+async def ask_error(interaction: discord.Interaction, error):
+    await interaction.response.send_message("Error: " + str(error))
+
+
+@imagine.error
+async def imagine_error(interaction: discord.Interaction, error):
+    await interaction.response.send_message("Error: " + str(error))
 
 
 @client.tree.command()
