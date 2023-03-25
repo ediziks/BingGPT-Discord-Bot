@@ -44,39 +44,39 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
    chmod +x dcbot/bot.py run_dcbot.sh
    ```
 6. The bot can be launched after completing the steps below. There are two alternatives to do so;
-  - 1st method: Running the bot with python command in the terminal
-    ```bash
-    python dcbot/bot.py
-    ```
-  - 2nd method: Running the bot as a background process (Preferred)
-    ```bash
-    ./run_dcbot.sh
-    ```
-    - Bot logs can be find under `dcbot/bot.log`
-    - Find the process id with the first command and stop the process by providing the process id in the second command
-      ```bash
-      ps ax | grep bot.py
-      sudo kill -9 <proces_id>
-      ```
+   - 1st method: Running the bot with python command in the terminal
+     ```bash
+     python dcbot/bot.py
+     ```
+   - 2nd method: Running the bot as a background process (Preferred)
+     ```bash
+     ./run_dcbot.sh
+     ```
+     - Bot logs can be find under `dcbot/bot.log`
+     - Find the process id with the first command and stop the process by providing the process id in the second command
+       ```bash
+       ps ax | grep bot.py
+       sudo kill -9 <proces_id>
+       ```
 ### Installation with Docker
 1. Be sure that Docker and docker-compose are installed on your system
- - [Mac](https://docs.docker.com/docker-for-mac/install/)
- - [Linux](https://docs.docker.com/install/)
- - [Windows](https://docs.docker.com/docker-for-windows/install/)
+   - [Mac](https://docs.docker.com/docker-for-mac/install/)
+   - [Linux](https://docs.docker.com/install/)
+   - [Windows](https://docs.docker.com/docker-for-windows/install/)
 2. Complete the installation section above up to 3th step (including 3th)
 2. Build the project
    ```bash
    docker-compose build
    ```
 3. Run the application
-  - Running in the shell/terminal  
-    ```bash
-    docker-compose up
-    ```
-  - Running in detached mode (similar as a background process)
-    ```bash
-    docker-compose up -d
-    ```
+   - Running in the shell/terminal  
+     ```bash
+     docker-compose up
+     ```
+   - Running in detached mode (similar as a background process)
+     ```bash
+     docker-compose up -d
+     ```
 
 ### Inviting the Bot
 See [how to invite a bot to Discord server](https://discordpy.readthedocs.io/en/stable/discord.html#inviting-your-bot) for more information about the bot invitation. Make sure that the bot permissions look like as in the image below before generating the invitation url
