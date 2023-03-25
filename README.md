@@ -9,6 +9,7 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
 
 - python 3.8+
 - A Microsoft Account with early access to <https://bing.com/chat> (Required)
+- Docker (Optional: Preferred especially on Windows)
 
 ### Checking access (Required)
 
@@ -27,22 +28,22 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
 
 ### Installation
 
-- Clone the repo and change directory to repo folder
-  ```bash
-  git clone https://github.com/ediziks/BingGPT-Discord-Bot.git
-  cd BingGPT-Discord-Bot
-  ```
-- Install the requirements
-  ```bash
-  pip install -r requirements.txt
-  ```
-- Place `cookies.json` file into the main path. See `Getting authentication (Required)` section above for more information. Also, check `example.cookies.json` file to see the right path
-- Set the environment variables (`BOT_TOKEN` & `SERVER_ID`) in the `.env` file. See `.example.env` file to get the right format. Check [creating Discord bot and getting the token](https://discordpy.readthedocs.io/en/stable/discord.html) for more details about the `BOT_TOKEN`. And, the `SERVER_ID` can be simply copied by right clicking the server logo you want to invite the bot, and selecting `COPY_ID`. See [how to get Discord server id](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID) for more information.
-- Make `bot.py` and `run_dcbot.sh` files executable
-  ```bash
-  chmod +x dcbot/bot.py run_dcbot.sh
-  ```
-- The bot can be launched after completing the steps below. There are two alternatives to do so;
+1. Clone the repo and change directory to repo folder
+   ```bash
+   git clone https://github.com/ediziks/BingGPT-Discord-Bot.git
+   cd BingGPT-Discord-Bot
+   ```
+2. Place `cookies.json` file into the main path. See `Getting authentication (Required)` section above for more information. Also, check `example.cookies.json` file to see the right path
+3. Set the environment variables (`BOT_TOKEN` & `SERVER_ID`) in the `.env` file. See `.example.env` file to get the right format. Check [creating Discord bot and getting the token](https://discordpy.readthedocs.io/en/stable/discord.html) for more details about the `BOT_TOKEN`. And, the `SERVER_ID` can be simply copied by right clicking the server logo you want to invite the bot, and selecting `COPY_ID`. See [how to get Discord server id](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID) for more information.
+4. Install the requirements
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. Make `bot.py` and `run_dcbot.sh` files executable
+   ```bash
+   chmod +x dcbot/bot.py run_dcbot.sh
+   ```
+6. The bot can be launched after completing the steps below. There are two alternatives to do so;
   - 1st method: Running the bot with python command in the terminal
     ```bash
     python dcbot/bot.py
@@ -57,6 +58,25 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
       ps ax | grep bot.py
       sudo kill -9 <proces_id>
       ```
+### Installation with Docker
+1. Be sure that Docker and docker-compose are installed on your system
+ - [Mac](https://docs.docker.com/docker-for-mac/install/)
+ - [Linux](https://docs.docker.com/install/)
+ - [Windows](https://docs.docker.com/docker-for-windows/install/)
+2. Complete the installation section above up to 3th step (including 3th)
+2. Build the project
+   ```bash
+   docker-compose build
+   ```
+3. Run the application
+  - Running in the shell/terminal  
+    ```bash
+    docker-compose up
+    ```
+  - Running in detached mode (similar as a background process)
+    ```bash
+    docker-compose up -d
+    ```
 
 ### Inviting the Bot
 See [how to invite a bot to Discord server](https://discordpy.readthedocs.io/en/stable/discord.html#inviting-your-bot) for more information about the bot invitation. Make sure that the bot permissions look like as in the image below before generating the invitation url
