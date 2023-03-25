@@ -1,0 +1,6 @@
+version: '3'
+services:
+  dcbot:
+    build: .
+    container_name: dcbot
+    restart: unless-stopped
