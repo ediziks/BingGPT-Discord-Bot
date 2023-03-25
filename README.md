@@ -63,7 +63,7 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
    - [Mac](https://docs.docker.com/docker-for-mac/install/)
    - [Linux](https://docs.docker.com/install/)
    - [Windows](https://docs.docker.com/docker-for-windows/install/)
-2. Complete the installation section above up to 3th step (including 3th)
+2. Complete the installation section above up to 3th step (including the 3th)
 2. Build the project
    ```bash
    docker-compose build
