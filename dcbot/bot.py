@@ -75,19 +75,25 @@ async def imagine(interaction: discord.Interaction, prompt: str):
     try:
         images = ImageGen(auth_cookie=auth_cookie).get_images(prompt)
     except Exception as e:
-        await interaction.followup.send("Error: " + str(e))
+        await interaction.followup.send(
+            "Error: " + str(e) + "\n Try again or check if your prompt is appropriate."
+        )
     images = '\n'.join(images)
     await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + images)
 
 
 @ask.error
 async def ask_error(interaction: discord.Interaction, error):
-    await interaction.response.send_message("Error: " + str(error))
+    await interaction.response.send_message(
+        "Error: " + str(error) + "\n Reset the conversation or try doing a hard reset."
+    )
 
 
 @imagine.error
 async def imagine_error(interaction: discord.Interaction, error):
-    await interaction.response.send_message("Error: " + str(error))
+    await interaction.response.send_message(
+        "Error: " + str(error) + "\n Try again or check if your prompt is appropriate."
+    )
 
 
 @client.tree.command()
