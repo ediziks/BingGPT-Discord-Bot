@@ -33,8 +33,8 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
    git clone https://github.com/ediziks/BingGPT-Discord-Bot.git
    cd BingGPT-Discord-Bot
    ```
-2. Place `cookies.json` file into the main path. See `Getting authentication (Required)` section above for more information. Also, check `example.cookies.json` file to see the right path
-3. Set the environment variables (`BOT_TOKEN` & `SERVER_ID`) in the `.env` file. See `.example.env` file to get the right format. Check [creating Discord bot and getting the token](https://discordpy.readthedocs.io/en/stable/discord.html) for more details about the `BOT_TOKEN`. And, the `SERVER_ID` can be simply copied by right clicking the server logo you want to invite the bot, and selecting `COPY_ID`. See [how to get Discord server id](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID) for more information.
+2. Place `cookies.json` file into the main path. See [Getting authentication (Required)](https://github.com/ediziks/BingGPT-Discord-Bot#getting-authentication-required) section above for more information. Also, check `example.cookies.json` file to see the right path
+3. Set the environment variables (`BOT_TOKEN` & `SERVER_ID`) in the `.env` file. See `.example.env` file to get the right format and the path. Check [creating Discord bot and getting the token](https://discordpy.readthedocs.io/en/stable/discord.html) for more details about the `BOT_TOKEN`. And, the `SERVER_ID` can be simply copied by right clicking the server logo you want to invite the bot, and selecting `COPY_ID`. See [how to get Discord server id](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID) for more information.
 4. Install the requirements
    ```bash
    pip install -r requirements.txt
