@@ -5,7 +5,7 @@ import json
 from discord import app_commands
 import discord
 from dotenv import load_dotenv
-import traceback
+import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -18,6 +18,7 @@ TOKEN = os.getenv('BOT_TOKEN')
 SERVER_ID = os.getenv('SERVER_ID')
 MY_GUILD = discord.Object(id=SERVER_ID)
 
+log = logging.getLogger('discord.bot')
 
 class MyClient(discord.Client):
     def __init__(self, *, intents: discord.Intents):
@@ -36,8 +37,8 @@ client = MyClient(intents=intents)
 
 @client.event
 async def on_ready():
-    print(f'Logged in as {client.user} (ID: {client.user.id})')
-    print('------')
+    log.info(f'Logged in as {client.user} (ID: {client.user.id})')
+    log.info('------')
 
 
 gptbot = Chatbot(cookiePath='cookies.json')
@@ -54,7 +55,8 @@ async def ask(interaction: discord.Interaction, prompt: str):
             ][1]["adaptiveCards"][0]["body"][0]["text"],
         )
     except Exception as e:
-        await interaction.followup.send("Error: " + str(e))
+        log.warning(e)
+        await interaction.followup.send("Error: " + str(e) + "\n Try again or check if your prompt is appropriate.")
     if len(res[0]) < 1950:
         await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0], suppress_embeds=True)
     else:
@@ -75,6 +77,7 @@ async def imagine(interaction: discord.Interaction, prompt: str):
     try:
         images = ImageGen(auth_cookie=auth_cookie).get_images(prompt)
     except Exception as e:
+        log.warning(e)
         await interaction.followup.send(
             "Error: " + str(e) + "\n Try again or check if your prompt is appropriate."
         )
@@ -84,6 +87,7 @@ async def imagine(interaction: discord.Interaction, prompt: str):
 
 @ask.error
 async def ask_error(interaction: discord.Interaction, error):
+    log.warning(error)
     await interaction.response.send_message(
         "Error: " + str(error) + "\n Reset the conversation or try doing a hard reset."
     )
@@ -91,6 +95,7 @@ async def ask_error(interaction: discord.Interaction, error):
 
 @imagine.error
 async def imagine_error(interaction: discord.Interaction, error):
+    log.warning(error)
     await interaction.response.send_message(
         "Error: " + str(error) + "\n Try again or check if your prompt is appropriate."
     )
