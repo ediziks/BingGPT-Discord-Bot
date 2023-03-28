@@ -13,7 +13,7 @@ from src.EdgeGPT import Chatbot, ConversationStyle
 from src.ImageGen import ImageGen
 
 
-load_dotenv()
+load_dotenv('.env')
 TOKEN = os.getenv('BOT_TOKEN')
 SERVER_ID = os.getenv('SERVER_ID')
 MY_GUILD = discord.Object(id=SERVER_ID)
