@@ -26,7 +26,7 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
 - Click "Export" on the bottom right (This saves your cookies to clipboard)
 - Paste your cookies into a file in the main folder named as `cookies.json`
 
-### Installation
+### Installation & Running
 
 1. Clone the repo and change directory to repo folder
    ```bash
@@ -58,7 +58,7 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
        ps ax | grep bot.py
        sudo kill -9 <proces_id>
        ```
-### Installation with Docker
+### Installation & Running with Docker
 1. Be sure that Docker and docker-compose are installed on your system
    - [Mac](https://docs.docker.com/docker-for-mac/install/)
    - [Linux](https://docs.docker.com/install/)
