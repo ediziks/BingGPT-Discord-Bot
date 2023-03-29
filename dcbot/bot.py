@@ -56,15 +56,32 @@ async def ask(interaction: discord.Interaction, prompt: str):
         )
     except Exception as e:
         log.warning(e)
-        await interaction.followup.send("Error: " + str(e) + "\n Try again or check if your prompt is appropriate.")
-    await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0][:1900], suppress_embeds=True)
-    if len(res[0]) > 1900:
-        res[0] = res[0][1900:]
-        while len(res[0]) > 1900:
-            await interaction.followup.send(res[0][:1900], suppress_embeds=True)
-            res[0] = res[0][1900:]
-        await interaction.followup.send(res[0], suppress_embeds=True)
+        await interaction.followup.send("Error: " + str(e) + "\nTry again or check if your prompt is appropriate.")
 
+    if len(prompt) < 1900:
+        prompt = '`' + 'Prompt: ' + prompt + '`'
+        await interaction.followup.send(prompt, suppress_embeds=True)
+    else:
+        prompt_first = '`' + 'Prompt: ' + prompt[:1900] + '`'
+        await interaction.followup.send(prompt_first, suppress_embeds=True)
+        prompt_rest = prompt[1900:]
+        while len(prompt_rest) > 1900:
+            prompt_rest_text = '`' + prompt_rest[:1900] + '`'
+            await interaction.channel.send(prompt_rest_text, suppress_embeds=True)
+            prompt_rest = prompt_rest[1900:]
+        prompt_rest_text = '`' + prompt_rest + '`'
+        await interaction.channel.send(prompt_rest_text, suppress_embeds=True)
+
+    ans = res[0]
+    print(ans)
+    if len(ans) < 1900:
+        await interaction.channel.send(ans, suppress_embeds=True)
+    else:
+        while len(ans) > 1900:
+            ans_text = ans[:1900]
+            await interaction.channel.send(ans_text, suppress_embeds=True)
+            ans = ans[1900:]
+        await interaction.channel.send(ans, suppress_embeds=True)
 
 @client.tree.command()
 async def imagine(interaction: discord.Interaction, prompt: str):
@@ -81,7 +98,7 @@ async def imagine(interaction: discord.Interaction, prompt: str):
     except Exception as e:
         log.warning(e)
         await interaction.followup.send(
-            "Error: " + str(e) + "\n Try again or check if your prompt is appropriate."
+            "Error: " + str(e) + "\nTry again or check if your prompt is appropriate."
         )
     images = '\n'.join(images)
     await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + images)
@@ -91,7 +108,7 @@ async def imagine(interaction: discord.Interaction, prompt: str):
 async def ask_error(interaction: discord.Interaction, error):
     log.warning(error)
     await interaction.response.send_message(
-        "Error: " + str(error) + "\n Reset the conversation or try doing a hard reset."
+        "Error: " + str(error) + "\nReset the conversation or try doing a hard reset."
     )
 
 
@@ -99,7 +116,7 @@ async def ask_error(interaction: discord.Interaction, error):
 async def imagine_error(interaction: discord.Interaction, error):
     log.warning(error)
     await interaction.response.send_message(
-        "Error: " + str(error) + "\n Try again or check if your prompt is appropriate."
+        "Error: " + str(error) + "\nTry again or check if your prompt is appropriate."
     )
 
 
