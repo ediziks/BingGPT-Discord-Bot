@@ -57,11 +57,13 @@ async def ask(interaction: discord.Interaction, prompt: str):
     except Exception as e:
         log.warning(e)
         await interaction.followup.send("Error: " + str(e) + "\n Try again or check if your prompt is appropriate.")
-    if len(res[0]) < 1950:
-        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0], suppress_embeds=True)
-    else:
-        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0][:1950], suppress_embeds=True)
-        await interaction.followup.send(res[0][1950:], suppress_embeds=True, )
+    await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n' + res[0][:1900], suppress_embeds=True)
+    if len(res[0]) > 1900:
+        res[0] = res[0][1900:]
+        while len(res[0]) > 1900:
+            await interaction.followup.send(res[0][:1900], suppress_embeds=True)
+            res[0] = res[0][1900:]
+        await interaction.followup.send(res[0], suppress_embeds=True)
 
 
 @client.tree.command()
