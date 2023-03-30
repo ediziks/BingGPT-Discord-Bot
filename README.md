@@ -1,9 +1,8 @@
 # BingGPT-Discord-Bot
 
-BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://github.com/acheong08/EdgeGPT) reverse engineered API of Microsoft's Bing Chat which is currently running with GPT-4 and recently started to support Text-to-Image generation.
+BingGPT-Discord-Bot is a Discord bot that can be invited to any Discord servers and be interact with Microsoft's Bing Chat. It's on top of [https://github.com/acheong08/EdgeGPT](https://github.com/acheong08/EdgeGPT) reverse engineered API of Microsoft's Bing Chat which is currently running with GPT-4 and recently started to support Text-to-Image generation
 
 ## Setup
-
 
 ### Requirements
 
@@ -58,6 +57,7 @@ BingGPT Discord Bot on top of [https://github.com/acheong08/EdgeGPT](https://git
        ps ax | grep bot.py
        sudo kill -9 <proces_id>
        ```
+
 ### Installation & Running with Docker
 1. Be sure that Docker and docker-compose are installed on your system
    - [Mac](https://docs.docker.com/docker-for-mac/install/)
