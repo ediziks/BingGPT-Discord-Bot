@@ -73,7 +73,6 @@ async def ask(interaction: discord.Interaction, prompt: str):
         await interaction.channel.send(prompt_rest_text, suppress_embeds=True)
 
     ans = res[0]
-    print(ans)
     if len(ans) < 1900:
         await interaction.channel.send(ans, suppress_embeds=True)
     else:
