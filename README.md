@@ -81,7 +81,7 @@ BingGPT-Discord-Bot is a Discord bot that can be invited to any Discord servers 
 ### Inviting the Bot
 See [how to invite a bot to Discord server](https://discordpy.readthedocs.io/en/stable/discord.html#inviting-your-bot) for more information about the bot invitation. Make sure that the bot permissions look like as in the image below before generating the invitation url
 
-![Example Image](https://drive.google.com/uc?id=186UYp2nKjEpJBUZh7xyAn4p9w2qZ28pX)
+![invitation permissions](https://user-images.githubusercontent.com/54022220/229100554-0534ccd3-8318-4391-a5d4-ab057fc2a8ad.png)
 
 ## Usage
 ### Commands
@@ -93,6 +93,6 @@ See [how to invite a bot to Discord server](https://discordpy.readthedocs.io/en/
 ```
 ### Sample Usage
 
-![Example Image](https://drive.google.com/uc?id=1A1cNS98neP17g3jkpcbDGlrRik1QNNbm)
+![/ask usage](https://user-images.githubusercontent.com/54022220/229100391-c3e3c29a-4b4a-4a6f-9689-5ca41d8b4dcc.png)
 
-![Example Image](https://drive.google.com/uc?id=12ygrhku-z79u2C0WsIFE7nowZv5nI9xJ)
+![/imagine usage](https://user-images.githubusercontent.com/54022220/229100469-aa5813ff-fdb1-4dcc-bb2c-d115386ac04c.png)
