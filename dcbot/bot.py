@@ -41,7 +41,7 @@ async def on_ready():
     log.info('------')
 
 
-gptbot = Chatbot(cookiePath='cookies.json')
+gptbot = Chatbot(cookie_path='cookies.json')
 
 
 @client.tree.command()
@@ -99,16 +99,47 @@ async def imagine(interaction: discord.Interaction, prompt: str):
         await interaction.followup.send(
             "Error: " + str(e) + "\nTry again or check if your prompt is appropriate."
         )
-    image1, image2, image3, image4= images
-    embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
-    embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
-    embed3 = discord.Embed(url='https://tse4.mm.bing.net/')
-    embed4 = discord.Embed(url='https://tse4.mm.bing.net/')
-    embed1.set_image(url=image1)
-    embed2.set_image(url=image2)
-    embed3.set_image(url=image3)
-    embed4.set_image(url=image4)
-    await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2, embed3, embed4])
+
+    len_images = len(images)
+    if len_images == 0:
+        await interaction.followup.send("No images generated. Try again.")
+        log.warning("No images generated. Try again.")
+    elif len_images == 1:
+        image_1 = images[0]
+        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed1.set_image(url=image_1)
+        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1])
+        log.info("Image generated.")
+    elif len_images == 2:
+        image_1, image_2 = images
+        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed1.set_image(url=image_1)
+        embed2.set_image(url=image_2)
+        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2])
+        log.info("Images generated.")
+    elif len_images == 3:
+        image_1, image_2, image_3 = images
+        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed3 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed1.set_image(url=image_1)
+        embed2.set_image(url=image_2)
+        embed3.set_image(url=image_3)
+        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2, embed3])
+        log.info("Images generated.")
+    elif len_images == 4:
+        image_1, image_2, image_3, image_4 = images
+        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed3 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed4 = discord.Embed(url='https://tse4.mm.bing.net/')
+        embed1.set_image(url=image_1)
+        embed2.set_image(url=image_2)
+        embed3.set_image(url=image_3)
+        embed4.set_image(url=image_4)
+        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2, embed3, embed4])
+        log.info("Images generated.")
 
 
 @ask.error
@@ -131,7 +162,7 @@ async def imagine_error(interaction: discord.Interaction, error):
 async def reset(interaction: discord.Interaction):
     """Reset the conversation"""
     await gptbot.reset()
-    await interaction.response.send_message("Alfred conversation has been reset")
+    await interaction.response.send_message("Conversation has been reset")
 
 
 @client.tree.command()
@@ -140,7 +171,7 @@ async def hardreset(interaction: discord.Interaction):
     global gptbot
     await gptbot.close()   
     gptbot = Chatbot(cookiePath='cookies.json')
-    await interaction.response.send_message("Alfred session reloaded")
+    await interaction.response.send_message("Session reloaded")
 
 
 client.run(TOKEN)
