@@ -8,18 +8,12 @@ import asyncio
 import json
 import os
 import random
-<<<<<<< HEAD
-import ssl
-import uuid
-from enum import Enum
-=======
 import re
 import ssl
 import sys
 import uuid
 from enum import Enum
 from pathlib import Path
->>>>>>> fork_branch
 from typing import Generator
 from typing import Literal
 from typing import Optional
@@ -28,18 +22,12 @@ from typing import Union
 import certifi
 import httpx
 import websockets.client as websockets
-<<<<<<< HEAD
-=======
 from BingImageCreator import ImageGenAsync
->>>>>>> fork_branch
 from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.history import InMemoryHistory
-<<<<<<< HEAD
-=======
 from prompt_toolkit.key_binding import KeyBindings
->>>>>>> fork_branch
 from rich.live import Live
 from rich.markdown import Markdown
 
@@ -95,10 +83,7 @@ HEADERS_INIT_CONVER = {
     "upgrade-insecure-requests": "1",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69",
     "x-edge-shopping-flag": "1",
-<<<<<<< HEAD
-=======
     "x-forwarded-for": FORWARDED_IP,
->>>>>>> fork_branch
 }
 
 ssl_context = ssl.create_default_context()
@@ -110,11 +95,6 @@ class NotAllowedToAccess(Exception):
 
 
 class ConversationStyle(Enum):
-<<<<<<< HEAD
-    creative = "h3relaxedimg"
-    balanced = "galileo"
-    precise = "h3precise"
-=======
     creative = [
         "nlu_direct_response_filter",
         "deepleo",
@@ -166,7 +146,6 @@ class ConversationStyle(Enum):
         "clgalileo",
         "nojbfedge",
     ]
->>>>>>> fork_branch
 
 
 CONVERSATION_STYLE_TYPE = Optional[
@@ -174,21 +153,11 @@ CONVERSATION_STYLE_TYPE = Optional[
 ]
 
 
-<<<<<<< HEAD
-def append_identifier(msg: dict) -> str:
-=======
 def _append_identifier(msg: dict) -> str:
->>>>>>> fork_branch
     """
     Appends special character to end of message to identify end of message
     """
     # Convert dict to json string
-<<<<<<< HEAD
-    return json.dumps(msg) + DELIMITER
-
-
-class ChatHubRequest:
-=======
     return json.dumps(msg, ensure_ascii=False) + DELIMITER
 
 
@@ -200,7 +169,6 @@ def _get_ran_hex(length: int = 32) -> str:
 
 
 class _ChatHubRequest:
->>>>>>> fork_branch
     """
     Request object for ChatHub
     """
@@ -224,11 +192,8 @@ class _ChatHubRequest:
         prompt: str,
         conversation_style: CONVERSATION_STYLE_TYPE,
         options: list | None = None,
-<<<<<<< HEAD
-=======
         webpage_context: str | None = None,
         search_result: bool = False,
->>>>>>> fork_branch
     ) -> None:
         """
         Updates request object
@@ -243,24 +208,12 @@ class _ChatHubRequest:
         if conversation_style:
             if not isinstance(conversation_style, ConversationStyle):
                 conversation_style = getattr(ConversationStyle, conversation_style)
-<<<<<<< HEAD
-            options = [
-                "deepleo",
-                "enable_debug_commands",
-                "disable_emoji_spoken_text",
-                "enablemm",
-                conversation_style.value,
-            ]
-=======
             options = conversation_style.value
->>>>>>> fork_branch
         self.struct = {
             "arguments": [
                 {
                     "source": "cib",
                     "optionsSets": options,
-<<<<<<< HEAD
-=======
                     "allowedMessageTypes": [
                         "Chat",
                         "Disengaged",
@@ -290,7 +243,6 @@ class _ChatHubRequest:
                         "403tvlansgnd",
                     ],
                     "traceId": _get_ran_hex(32),
->>>>>>> fork_branch
                     "isStartOfSession": self.invocation_id == 0,
                     "message": {
                         "author": "user",
@@ -309,12 +261,6 @@ class _ChatHubRequest:
             "target": "chat",
             "type": 4,
         }
-<<<<<<< HEAD
-        self.invocation_id += 1
-
-
-class Conversation:
-=======
         if search_result:
             have_search_result = [
                 "InternalSearchQuery",
@@ -337,34 +283,24 @@ class Conversation:
 
 
 class _Conversation:
->>>>>>> fork_branch
     """
     Conversation API
     """
 
     def __init__(
         self,
-<<<<<<< HEAD
-        cookiePath: str = "",
-        cookies: dict | None = None,
-        proxy: str | None = None,
-    ) -> None:
-=======
         cookies: dict | None = None,
         proxy: str | None = None,
         async_mode: bool = False,
     ) -> None:
         if async_mode:
             return
->>>>>>> fork_branch
         self.struct: dict = {
             "conversationId": None,
             "clientId": None,
             "conversationSignature": None,
             "result": {"value": "Success", "message": None},
         }
-<<<<<<< HEAD
-=======
         self.proxy = proxy
         proxy = (
             proxy
@@ -376,36 +312,17 @@ class _Conversation:
         )
         if proxy is not None and proxy.startswith("socks5h://"):
             proxy = "socks5://" + proxy[len("socks5h://") :]
->>>>>>> fork_branch
         self.session = httpx.Client(
             proxies=proxy,
             timeout=30,
             headers=HEADERS_INIT_CONVER,
         )
-<<<<<<< HEAD
-        if cookies is not None:
-            cookie_file = cookies
-        else:
-            f = (
-                open(cookiePath, encoding="utf8").read()
-                if cookiePath
-                else open(os.environ.get("COOKIE_FILE"), encoding="utf-8").read()
-            )
-            cookie_file = json.loads(f)
-        for cookie in cookie_file:
-=======
         for cookie in cookies:
->>>>>>> fork_branch
             self.session.cookies.set(cookie["name"], cookie["value"])
 
         # Send GET request
         response = self.session.get(
             url=os.environ.get("BING_PROXY_URL")
-<<<<<<< HEAD
-            or "https://edgeservices.bing.com/edgesvc/turing/conversation/create"
-        )
-        if response.status_code != 200:
-=======
             or "https://edgeservices.bing.com/edgesvc/turing/conversation/create",
         )
         if response.status_code != 200:
@@ -413,27 +330,16 @@ class _Conversation:
                 "https://edge.churchless.tech/edgesvc/turing/conversation/create",
             )
         if response.status_code != 200:
->>>>>>> fork_branch
             print(f"Status code: {response.status_code}")
             print(response.text)
             print(response.url)
             raise Exception("Authentication failed")
         try:
             self.struct = response.json()
-<<<<<<< HEAD
-            if self.struct["result"]["value"] == "UnauthorizedRequest":
-                raise NotAllowedToAccess(self.struct["result"]["message"])
-=======
->>>>>>> fork_branch
         except (json.decoder.JSONDecodeError, NotAllowedToAccess) as exc:
             raise Exception(
                 "Authentication failed. You have not been accepted into the beta.",
             ) from exc
-<<<<<<< HEAD
-
-
-class ChatHub:
-=======
         if self.struct["result"]["value"] == "UnauthorizedRequest":
             raise NotAllowedToAccess(self.struct["result"]["message"])
 
@@ -496,26 +402,16 @@ class ChatHub:
 
 
 class _ChatHub:
->>>>>>> fork_branch
     """
     Chat API
     """
 
-<<<<<<< HEAD
-    def __init__(self, conversation: Conversation) -> None:
-        self.wss: websockets.WebSocketClientProtocol | None = None
-        self.request: ChatHubRequest
-        self.loop: bool
-        self.task: asyncio.Task
-        self.request = ChatHubRequest(
-=======
     def __init__(self, conversation: _Conversation) -> None:
         self.wss: websockets.WebSocketClientProtocol | None = None
         self.request: _ChatHubRequest
         self.loop: bool
         self.task: asyncio.Task
         self.request = _ChatHubRequest(
->>>>>>> fork_branch
             conversation_signature=conversation.struct["conversationSignature"],
             client_id=conversation.struct["clientId"],
             conversation_id=conversation.struct["conversationId"],
@@ -524,9 +420,6 @@ class _ChatHub:
     async def ask_stream(
         self,
         prompt: str,
-<<<<<<< HEAD
-        conversation_style: CONVERSATION_STYLE_TYPE = None,
-=======
         wss_link: str,
         cookies: str,
         conversation_style: CONVERSATION_STYLE_TYPE = None,
@@ -534,59 +427,19 @@ class _ChatHub:
         options: dict = None,
         webpage_context: str | None = None,
         search_result: bool = False,
->>>>>>> fork_branch
     ) -> Generator[str, None, None]:
         """
         Ask a question to the bot
         """
-<<<<<<< HEAD
-        if self.wss:
-            if not self.wss.closed:
-                await self.wss.close()
-        # Check if websocket is closed
-        self.wss = await websockets.connect(
-            "wss://sydney.bing.com/sydney/ChatHub",
-=======
         if self.wss and not self.wss.closed:
             await self.wss.close()
         # Check if websocket is closed
         self.wss = await websockets.connect(
             wss_link,
->>>>>>> fork_branch
             extra_headers=HEADERS,
             max_size=None,
             ssl=ssl_context,
         )
-<<<<<<< HEAD
-        await self.__initial_handshake()
-        # Construct a ChatHub request
-        self.request.update(prompt=prompt, conversation_style=conversation_style)
-        # Send request
-        await self.wss.send(append_identifier(self.request.struct))
-        final = False
-        while not final:
-            objects = str(await self.wss.recv()).split(DELIMITER)
-            for obj in objects:
-                if obj is None or obj == "":
-                    continue
-                response = json.loads(obj)
-                if response.get("type") == 1 and response["arguments"][0].get(
-                    "messages",
-                ):
-                    resp_txt = response["arguments"][0]["messages"][0]["adaptiveCards"][
-                        0
-                    ]["body"][0].get("text")
-                    yield False, resp_txt
-                elif response.get("type") == 2:
-                    final = True
-                    yield True, response
-
-    async def __initial_handshake(self):
-        await self.wss.send(append_identifier({"protocol": "json", "version": 1}))
-        await self.wss.recv()
-
-    async def close(self):
-=======
         await self._initial_handshake()
         if self.request.invocation_id == 0:
             # Construct a ChatHub request
@@ -718,7 +571,6 @@ class _ChatHub:
         await self.wss.recv()
 
     async def close(self) -> None:
->>>>>>> fork_branch
         """
         Close the connection
         """
@@ -733,23 +585,6 @@ class Chatbot:
 
     def __init__(
         self,
-<<<<<<< HEAD
-        cookiePath: str = "",
-        cookies: dict | None = None,
-        proxy: str | None = None,
-    ) -> None:
-        self.cookiePath: str = cookiePath
-        self.cookies: dict | None = cookies
-        self.proxy: str | None = proxy
-        self.chat_hub: ChatHub = ChatHub(
-            Conversation(self.cookiePath, self.cookies, self.proxy)
-        )
-
-    async def ask(
-        self,
-        prompt: str,
-        conversation_style: CONVERSATION_STYLE_TYPE = None,
-=======
         cookies: dict = None,
         proxy: str | None = None,
         cookie_path: str = None,
@@ -800,7 +635,6 @@ class Chatbot:
         options: dict = None,
         webpage_context: str | None = None,
         search_result: bool = False,
->>>>>>> fork_branch
     ) -> dict:
         """
         Ask a question to the bot
@@ -808,12 +642,6 @@ class Chatbot:
         async for final, response in self.chat_hub.ask_stream(
             prompt=prompt,
             conversation_style=conversation_style,
-<<<<<<< HEAD
-        ):
-            if final:
-                return response
-        self.chat_hub.wss.close()
-=======
             wss_link=wss_link,
             options=options,
             cookies=self.cookies,
@@ -824,21 +652,16 @@ class Chatbot:
                 return response
         await self.chat_hub.wss.close()
         return {}
->>>>>>> fork_branch
 
     async def ask_stream(
         self,
         prompt: str,
-<<<<<<< HEAD
-        conversation_style: CONVERSATION_STYLE_TYPE = None,
-=======
         wss_link: str = "wss://sydney.bing.com/sydney/ChatHub",
         conversation_style: CONVERSATION_STYLE_TYPE = None,
         raw: bool = False,
         options: dict = None,
         webpage_context: str | None = None,
         search_result: bool = False,
->>>>>>> fork_branch
     ) -> Generator[str, None, None]:
         """
         Ask a question to the bot
@@ -846,12 +669,6 @@ class Chatbot:
         async for response in self.chat_hub.ask_stream(
             prompt=prompt,
             conversation_style=conversation_style,
-<<<<<<< HEAD
-        ):
-            yield response
-
-    async def close(self):
-=======
             wss_link=wss_link,
             raw=raw,
             options=options,
@@ -862,34 +679,22 @@ class Chatbot:
             yield response
 
     async def close(self) -> None:
->>>>>>> fork_branch
         """
         Close the connection
         """
         await self.chat_hub.close()
 
-<<<<<<< HEAD
-    async def reset(self):
-=======
     async def reset(self) -> None:
->>>>>>> fork_branch
         """
         Reset the conversation
         """
         await self.close()
-<<<<<<< HEAD
-        self.chat_hub = ChatHub(Conversation(self.cookiePath, self.cookies))
-
-
-async def get_input_async(
-=======
         self.chat_hub = _ChatHub(
             await _Conversation.create(self.cookies, self.proxy),
         )
 
 
 async def _get_input_async(
->>>>>>> fork_branch
     session: PromptSession = None,
     completer: WordCompleter = None,
 ) -> str:
@@ -903,13 +708,6 @@ async def _get_input_async(
     )
 
 
-<<<<<<< HEAD
-def create_session() -> PromptSession:
-    return PromptSession(history=InMemoryHistory())
-
-
-async def main():
-=======
 def _create_session() -> PromptSession:
     kb = KeyBindings()
 
@@ -935,26 +733,11 @@ def _create_completer(commands: list, pattern_str: str = "$"):
 
 
 async def async_main(args: argparse.Namespace) -> None:
->>>>>>> fork_branch
     """
     Main function
     """
     print("Initializing...")
     print("Enter `alt+enter` or `escape+enter` to send a message")
-<<<<<<< HEAD
-    bot = Chatbot(proxy=args.proxy)
-    session = create_session()
-    while True:
-        print("\nYou:")
-        if not args.enter_once:
-            question = await get_input_async(session=session)
-        else:
-            question = input()
-        print()
-        if question == "!exit":
-            break
-        elif question == "!help":
-=======
     bot = await Chatbot.create(proxy=args.proxy, cookies=args.cookies)
     session = _create_session()
     completer = _create_completer(["!help", "!exit", "!reset"])
@@ -976,7 +759,6 @@ async def async_main(args: argparse.Namespace) -> None:
         if question == "!exit":
             break
         if question == "!help":
->>>>>>> fork_branch
             print(
                 """
             !help - Show this help message
@@ -985,25 +767,12 @@ async def async_main(args: argparse.Namespace) -> None:
             """,
             )
             continue
-<<<<<<< HEAD
-        elif question == "!reset":
-=======
         if question == "!reset":
->>>>>>> fork_branch
             await bot.reset()
             continue
         print("Bot:")
         if args.no_stream:
             print(
-<<<<<<< HEAD
-                (await bot.ask(prompt=question, conversation_style=args.style))["item"][
-                    "messages"
-                ][1]["adaptiveCards"][0]["body"][0]["text"],
-            )
-        else:
-            if args.rich:
-                wrote = 0
-=======
                 (
                     await bot.ask(
                         prompt=question,
@@ -1015,16 +784,12 @@ async def async_main(args: argparse.Namespace) -> None:
         else:
             wrote = 0
             if args.rich:
->>>>>>> fork_branch
                 md = Markdown("")
                 with Live(md, auto_refresh=False) as live:
                     async for final, response in bot.ask_stream(
                         prompt=question,
                         conversation_style=args.style,
-<<<<<<< HEAD
-=======
                         wss_link=args.wss_link,
->>>>>>> fork_branch
                     ):
                         if not final:
                             if wrote > len(response):
@@ -1034,15 +799,6 @@ async def async_main(args: argparse.Namespace) -> None:
                             md = Markdown(response)
                             live.update(md, refresh=True)
             else:
-<<<<<<< HEAD
-                wrote = 0
-                async for final, response in bot.ask_stream(
-                    prompt=question,
-                    conversation_style=args.style,
-                ):
-                    if not final:
-                        print(response[wrote:], end="", flush=True)
-=======
                 async for final, response in bot.ask_stream(
                     prompt=question,
                     conversation_style=args.style,
@@ -1053,17 +809,12 @@ async def async_main(args: argparse.Namespace) -> None:
                             print(response, end="", flush=True)
                         else:
                             print(response[wrote:], end="", flush=True)
->>>>>>> fork_branch
                         wrote = len(response)
                 print()
     await bot.close()
 
 
-<<<<<<< HEAD
-if __name__ == "__main__":
-=======
 def main() -> None:
->>>>>>> fork_branch
     print(
         """
         EdgeGPT - A demo of reverse engineering the Bing GPT chatbot
@@ -1080,9 +831,6 @@ def main() -> None:
     parser.add_argument("--no-stream", action="store_true")
     parser.add_argument("--rich", action="store_true")
     parser.add_argument(
-<<<<<<< HEAD
-        "--proxy", help="Proxy URL (e.g. socks5://127.0.0.1:1080)", type=str
-=======
         "--proxy",
         help="Proxy URL (e.g. socks5://127.0.0.1:1080)",
         type=str,
@@ -1092,7 +840,6 @@ def main() -> None:
         help="WSS URL(e.g. wss://sydney.bing.com/sydney/ChatHub)",
         type=str,
         default="wss://sydney.bing.com/sydney/ChatHub",
->>>>>>> fork_branch
     )
     parser.add_argument(
         "--style",
@@ -1102,21 +849,6 @@ def main() -> None:
     parser.add_argument(
         "--cookie-file",
         type=str,
-<<<<<<< HEAD
-        default="cookies.json",
-        required=False,
-        help="needed if environment variable COOKIE_FILE is not set",
-    )
-    args = parser.parse_args()
-    if os.path.exists(args.cookie_file):
-        os.environ["COOKIE_FILE"] = args.cookie_file
-    else:
-        parser.print_help()
-        parser.exit(
-            1, "ERROR: use --cookied-file or set environemnt variable COOKIE_FILE"
-        )
-    asyncio.run(main())
-=======
         default=os.environ.get("COOKIE_FILE", ""),
         required=False,
         help="Cookie file used for authentication (defaults to COOKIE_FILE environment variable)",
@@ -1146,4 +878,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
->>>>>>> fork_branch
