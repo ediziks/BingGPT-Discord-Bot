@@ -135,3 +135,7 @@ output/*
 
 # dev
 bot_dev.py
+
+# configs
+.github
+.vscode
