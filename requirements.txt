@@ -6,3 +6,10 @@ python-dotenv
 httpx
 prompt-toolkit
 regex
+BingImageCreator
+certifi
+httpx
+prompt_toolkit
+requests
+rich
+websockets

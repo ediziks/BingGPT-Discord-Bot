@@ -129,9 +129,13 @@ dmypy.json
 .pyre/
 cookies.json
 output/*
+<<<<<<< HEAD
 
 # MacOS
 .DS_Store
 
 # dev
 bot_dev.py
+=======
+README.md
+>>>>>>> fork_branch

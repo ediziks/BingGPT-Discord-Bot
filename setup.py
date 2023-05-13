@@ -1,9 +1,27 @@
+<<<<<<< HEAD
 from setuptools import find_packages
 from setuptools import setup
 
 setup(
     name="EdgeGPT",
     version="0.1.6",
+=======
+from pathlib import Path
+
+from setuptools import find_packages
+from setuptools import setup
+
+DOCS_PATH = Path(__file__).parents[0] / "docs/README.md"
+PATH = Path("README.md")
+if not PATH.exists():
+    with open(DOCS_PATH, encoding="utf-8") as f1:
+        with open(PATH, "w+", encoding="utf-8") as f2:
+            f2.write(f1.read())
+
+setup(
+    name="EdgeGPT",
+    version="0.3.8.1",
+>>>>>>> fork_branch
     license="GNU General Public License v2.0",
     author="Antonio Cheong",
     author_email="acheong@student.dalat.org",
@@ -12,12 +30,22 @@ setup(
     package_dir={"": "src"},
     url="https://github.com/acheong08/EdgeGPT",
     project_urls={"Bug Report": "https://github.com/acheong08/EdgeGPT/issues/new"},
+<<<<<<< HEAD
+=======
+    entry_points={
+        "console_scripts": [
+            "edge-gpt = EdgeGPT:main",
+            "edge-gpt-image = ImageGen:main",
+        ],
+    },
+>>>>>>> fork_branch
     install_requires=[
         "httpx",
         "websockets",
         "rich",
         "certifi",
         "prompt_toolkit",
+<<<<<<< HEAD
         "regex",
         "requests",
     ],
@@ -26,6 +54,16 @@ setup(
     py_modules=["EdgeGPT", "ImageGen"],
     classifiers=[
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+=======
+        "requests",
+        "BingImageCreator>=0.1.2.1",
+    ],
+    long_description=open(PATH, encoding="utf-8").read(),
+    long_description_content_type="text/markdown",
+    py_modules=["EdgeGPT", "ImageGen"],
+    classifiers=[
+        "License :: OSI Approved :: The Unlicense (Unlicense)",
+>>>>>>> fork_branch
         "Intended Audience :: Developers",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Programming Language :: Python :: 3.8",
