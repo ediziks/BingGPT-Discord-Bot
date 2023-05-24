@@ -43,6 +43,73 @@ async def on_ready():
 
 gptbot = Chatbot(cookie_path='cookies.json')
 
+TOGGLED_CHANNELS_FILE = 'toggled_channels.txt'
+
+def load_toggled_channels():
+    """Load toggled channels from file"""
+    if os.path.exists(TOGGLED_CHANNELS_FILE):
+        with open(TOGGLED_CHANNELS_FILE, 'r') as f:
+            return set(map(int, f.read().split()))
+    return set()
+
+def save_toggled_channels(channels):
+    """Save toggled channels to file"""
+    with open(TOGGLED_CHANNELS_FILE, 'w') as f:
+        f.write('\n'.join(map(str, channels)))
+
+active_channels = load_toggled_channels()
+
+@client.tree.command()
+async def togglechannel(interaction: discord.Interaction):
+    """Toggle bot response behavior in a channel"""
+    channel = interaction.channel
+    if channel.id in active_channels:
+        active_channels.remove(channel.id)
+        save_toggled_channels(active_channels)
+        await interaction.response.send_message(f"Bot responses have been turned off in {channel.mention}")
+    else:
+        active_channels.add(channel.id)
+        save_toggled_channels(active_channels)
+        await interaction.response.send_message(f"Bot responses have been turned on in {channel.mention}")
+
+@client.event
+async def on_message(message):
+    if message.channel.id in active_channels and not message.author.bot:
+        prompt = message.content
+        try:
+            # Show typing indicator
+            async with message.channel.typing():
+                # Get response from BingGPT
+                res = (await gptbot.ask(prompt=prompt, conversation_style=ConversationStyle.balanced))["item"]["messages"][1]["adaptiveCards"][0]["body"][0]["text"]
+            
+            # Display prompt
+            if len(prompt) < 1900:
+                prompt = '`' + 'Prompt: ' + prompt + '`'
+                await message.channel.send(prompt)
+            else:
+                prompt_first = '`' + 'Prompt: ' + prompt[:1900] + '`'
+                await message.channel.send(prompt_first)
+                prompt_rest = prompt[1900:]
+                while len(prompt_rest) > 1900:
+                    prompt_rest_text = '`' + prompt_rest[:1900] + '`'
+                    await message.channel.send(prompt_rest_text)
+                    prompt_rest = prompt_rest[1900:]
+                prompt_rest_text = '`' + prompt_rest + '`'
+                await message.channel.send(prompt_rest_text)
+
+            # Send response
+            if len(res) < 1900:
+                await message.channel.send(res)
+            else:
+                while len(res) > 1900:
+                    res_text = res[:1900]
+                    await message.channel.send(res_text)
+                    res = res[1900:]
+                await message.channel.send(res)
+        except Exception as e:
+            log.warning(e)
+            await message.channel.send("Error: " + str(e) + "\nTry again or check if your prompt is appropriate.")
+
 
 @client.tree.command()
 async def ask(interaction: discord.Interaction, prompt: str):
