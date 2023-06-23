@@ -38,9 +38,9 @@ BingGPT-Discord-Bot is a Discord bot that can be invited to any Discord servers 
    ```bash
    pip install -r requirements.txt
    ```
-5. Make `bot.py` and `run_dcbot.sh` files executable
+5. Make `bot.py` and `dcbot.sh` files executable
    ```bash
-   chmod +x dcbot/bot.py run_dcbot.sh
+   chmod +x dcbot/bot.py dcbot.sh
    ```
 6. The bot can be launched after completing the steps below. There are two alternatives to do so;
    - 1st method: Running the bot with python command in the terminal
@@ -49,7 +49,7 @@ BingGPT-Discord-Bot is a Discord bot that can be invited to any Discord servers 
      ```
    - 2nd method: Running the bot as a background process (Preferred)
      ```bash
-     ./run_dcbot.sh
+     ./dcbot.sh
      ```
      - Bot logs can be find under `dcbot/bot.log`
      - Find the process id with the first command and stop the process by providing the process id in the second command

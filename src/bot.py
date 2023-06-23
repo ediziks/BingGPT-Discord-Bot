@@ -9,8 +9,8 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.EdgeGPT import Chatbot, ConversationStyle
-from src.ImageGen import ImageGen
+from EdgeGPT import Chatbot, ConversationStyle
+from ImageGen import ImageGenAsync
 
 
 load_dotenv('.env')
@@ -93,53 +93,51 @@ async def imagine(interaction: discord.Interaction, prompt: str):
                 auth_cookie = cookie.get("value")
                 break
     try:
-        images = ImageGen(auth_cookie=auth_cookie).get_images(prompt)
+        images = await ImageGenAsync(auth_cookie=auth_cookie).get_images(prompt=prompt)
+        len_images = len(images)
+        if len_images == 0:
+            await interaction.followup.send("No images generated. Try again.")
+            log.warning("No images generated. Try again.")
+        elif len_images == 1:
+            image_1 = images[0]
+            embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed1.set_image(url=image_1)
+            await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1])
+            log.info("Image generated.")
+        elif len_images == 2:
+            image_1, image_2 = images
+            embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed1.set_image(url=image_1)
+            embed2.set_image(url=image_2)
+            await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2])
+            log.info("Images generated.")
+        elif len_images == 3:
+            image_1, image_2, image_3 = images
+            embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed3 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed1.set_image(url=image_1)
+            embed2.set_image(url=image_2)
+            embed3.set_image(url=image_3)
+            await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2, embed3])
+            log.info("Images generated.")
+        elif len_images == 4:
+            image_1, image_2, image_3, image_4 = images
+            embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed3 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed4 = discord.Embed(url='https://tse4.mm.bing.net/')
+            embed1.set_image(url=image_1)
+            embed2.set_image(url=image_2)
+            embed3.set_image(url=image_3)
+            embed4.set_image(url=image_4)
+            await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2, embed3, embed4])
+            log.info("Images generated.")
+
     except Exception as e:
         log.warning(e)
-        await interaction.followup.send(
-            "Error: " + str(e) + "\nTry again or check if your prompt is appropriate."
-        )
-
-    len_images = len(images)
-    if len_images == 0:
-        await interaction.followup.send("No images generated. Try again.")
-        log.warning("No images generated. Try again.")
-    elif len_images == 1:
-        image_1 = images[0]
-        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed1.set_image(url=image_1)
-        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1])
-        log.info("Image generated.")
-    elif len_images == 2:
-        image_1, image_2 = images
-        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed1.set_image(url=image_1)
-        embed2.set_image(url=image_2)
-        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2])
-        log.info("Images generated.")
-    elif len_images == 3:
-        image_1, image_2, image_3 = images
-        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed3 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed1.set_image(url=image_1)
-        embed2.set_image(url=image_2)
-        embed3.set_image(url=image_3)
-        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2, embed3])
-        log.info("Images generated.")
-    elif len_images == 4:
-        image_1, image_2, image_3, image_4 = images
-        embed1 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed2 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed3 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed4 = discord.Embed(url='https://tse4.mm.bing.net/')
-        embed1.set_image(url=image_1)
-        embed2.set_image(url=image_2)
-        embed3.set_image(url=image_3)
-        embed4.set_image(url=image_4)
-        await interaction.followup.send('`' + 'Prompt: ' + prompt + '`\n', embeds=[embed1, embed2, embed3, embed4])
-        log.info("Images generated.")
+        await interaction.followup.send("Error: " + str(e) + "\nTry again or check if your prompt is appropriate.")
 
 
 @ask.error
