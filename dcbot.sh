@@ -1,2 +1,2 @@
 #!/bin/sh
-nohup dcbot/bot.py > dcbot/bot.log &
+nohup src/bot.py > src/bot.log &
