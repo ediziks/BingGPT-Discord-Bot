@@ -19,10 +19,10 @@ BingGPT-Discord-Bot is a Discord bot that can be invited to any Discord servers 
 
 ### Getting authentication (Required)
 
-- Install the cookie editor extension for [Chrome](https://chrome.google.com/webstore/detail/cookie-editor/hlkenndednhfkekhgcdicdfddnkalmdm) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/cookie-editor/)
+- Install the cookie manager extension for [Chrome](https://chrome.google.com/webstore/detail/cookiemanager-cookie-edit/hdhngoamekjhmnpenphenpaiindoinpo) or [Firefox](https://addons.mozilla.org/en-US/firefox/addon/a-cookie-manager/)
 - Go to `bing.com`
 - Open the extension
-- Click "Export" on the bottom right (This saves your cookies to clipboard)
+- Search for `_U` cookie and export it
 - Paste your cookies into a file in the main folder named as `cookies.json`
 
 ### Installation & Running
