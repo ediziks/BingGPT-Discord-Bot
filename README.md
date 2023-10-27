@@ -96,3 +96,7 @@ See [how to invite a bot to Discord server](https://discordpy.readthedocs.io/en/
 ![/ask usage](https://user-images.githubusercontent.com/54022220/229100391-c3e3c29a-4b4a-4a6f-9689-5ca41d8b4dcc.png)
 
 ![/imagine usage](https://user-images.githubusercontent.com/54022220/229100469-aa5813ff-fdb1-4dcc-bb2c-d115386ac04c.png)
+
+### Known Issues
+Currently, the `/ask` command doesn't work as expected. Suggestion and PRs are more than welcome.
+
