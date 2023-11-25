@@ -138,6 +138,8 @@ bot_dev.py
 bot_dev.pyc
 *output*
 
-# configs
+# configs & temp
 .github
 .vscode
+*.ipynb
+

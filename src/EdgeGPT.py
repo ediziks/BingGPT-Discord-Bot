@@ -412,7 +412,7 @@ class _ChatHub:
         self.loop: bool
         self.task: asyncio.Task
         self.request = _ChatHubRequest(
-            conversation_signature=conversation.struct.get["conversationSignature"],
+            conversation_signature=conversation.struct.get("conversationSignature"),
             client_id=conversation.struct["clientId"],
             conversation_id=conversation.struct["conversationId"],
         )
